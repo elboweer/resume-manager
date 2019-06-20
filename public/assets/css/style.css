@@ -1284,8 +1284,8 @@ a.star-icon.is-stared:before {
 }
 
 .records--list .dataTable tbody tr td {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     border-bottom: 1px solid #ebebea;
 }
 

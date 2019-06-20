@@ -8,11 +8,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ResumeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\SummaryRepository")
+ * @ORM\EntityListeners({"App\EventListener\Entity\SummaryListener"})
  */
-class Resume
+class Summary
 {
     /**
      * @var string
@@ -24,12 +26,14 @@ class Resume
 
     /**
      * @var string
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $position;
 
     /**
      * @var string
+     * @Assert\NotBlank
      * @ORM\Column(type="text", nullable=true)
      */
     private $body;
@@ -48,7 +52,7 @@ class Resume
 
     /**
      * @var Feedback[]
-     * @ORM\OneToMany(targetEntity="App\Entity\Feedback", mappedBy="resume")
+     * @ORM\OneToMany(targetEntity="App\Entity\Feedback", mappedBy="summary")
      */
     private $feedBacks;
 
@@ -57,10 +61,15 @@ class Resume
      */
     public function __construct()
     {
-        $this->id = Uuid::uuid4()->toString();
-        $this->feedBacks = new ArrayCollection();
-        $this->createdAt = new DateTime('now');
-        $this->updatedAt = $this->createdAt;
+        $this->reset();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function __clone()
+    {
+        $this->reset();
     }
 
     /**
@@ -149,5 +158,16 @@ class Resume
     public function addFeedBack(Feedback $feedBacks): void
     {
         $this->feedBacks->add($feedBacks);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function reset()
+    {
+        $this->id = Uuid::uuid4()->toString();
+        $this->feedBacks = new ArrayCollection();
+        $this->createdAt = new DateTime('now');
+        $this->updatedAt = $this->createdAt;
     }
 }

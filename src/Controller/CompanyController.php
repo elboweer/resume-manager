@@ -79,7 +79,7 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("/companies/{companyID}/create", name="edit_company")
+     * @Route("/companies/{companyID}/edit", name="edit_company")
      * @param Request $request
      * @param $companyID
      * @return RedirectResponse|Response

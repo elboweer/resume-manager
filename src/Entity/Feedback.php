@@ -28,10 +28,10 @@ class Feedback
     private $company;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Resume", inversedBy="feedBacks")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Summary", inversedBy="feedBacks")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private $resume;
+    private $summary;
 
     /**
      * @ORM\Column(type="datetime")
@@ -76,19 +76,19 @@ class Feedback
     }
 
     /**
-     * @return Resume|null
+     * @return Summary|null
      */
-    public function getResume(): ?Resume
+    public function getSummary(): ?Summary
     {
-        return $this->resume;
+        return $this->summary;
     }
 
     /**
-     * @param Resume $resume
+     * @param Summary $summary
      */
-    public function setResume(Resume $resume): void
+    public function setSummary(Summary $summary): void
     {
-        $this->resume = $resume;
+        $this->summary = $summary;
     }
 
     /**

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <a href="{{ path('create_summary') }}" class="btn btn-lg btn-rounded btn-warning">{% trans %}entity.summary.__create{% endtrans %}</a>
+
+    <section class="main--content">
+        <div class="panel">
+            <div class="records--list" data-title="{% trans %}entity.summary.__index{% endtrans %}">
+                <table id="recordsListView">
+                    <thead>
+                    <tr>
+                        <th>
+                            {% trans %}entity.summary.position{% endtrans %}
+                        </th>
+                        <th>
+                            {% trans %}entity.summary.createdAt{% endtrans %}
+                        </th>
+                        <th>
+                            {% trans %}entity.summary.updatedAt{% endtrans %}
+                        </th>
+                        <th class="not-sortable"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for summary in summaries %}
+                        <tr>
+                            <td>
+                                <p class="btn-link">{{ summary.position }}</p>
+                            </td>
+                            <td>
+                                <p class="btn-link">{{ summary.createdAt | date }}</p>
+                            </td>
+                            <td>
+                                <p class="btn-link">{{ summary.updatedAt | date }}</p>
+                            </td>
+                            <td>
+                                <div class="dropleft">
+                                    <a href="#" class="btn-link" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
+                                    <div class="dropdown-menu">
+                                        <a href="{{ path('edit_summary', { 'summaryID': summary.id } ) }}"
+                                           class="dropdown-item">{% trans %}action.button.edit{% endtrans %}</a>
+                                        <a href="{{ path('delete_summary', { 'summaryID': summary.id } ) }}"
+                                           class="dropdown-item remove-item">{% trans %}action.button.delete{% endtrans %}</a>
+                                        <a href="{{ path('clone_summary', { 'summaryID': summary.id } ) }}"
+                                           class="dropdown-item">{% trans %}action.button.clone{% endtrans %}</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}

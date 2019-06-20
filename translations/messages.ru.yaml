@@ -3,6 +3,7 @@ action:
     delete: Удалить
     edit: Изменить
     update: Обновить
+    clone: Клонировать
   flush:
     edit: Обновлено
     create: Создано
@@ -13,7 +14,7 @@ action:
     cancel: Отмена
 
 entity:
-  resume:
+  summary:
     __create: Создать резюме
     __index: Список резюме
     __editor: Редактор резюме
