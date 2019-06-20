@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    <section class="main--content">
+        <div class="panel">
+            <div class="records--body">
+                <div class="title">
+                    <h6 class="h6">{% trans %}entity.company.__editor{% endtrans %}</h6>
+                </div>
+                <div class="tab-content">
+
+                    {{ form_start(form) }}
+
+                    {{ form_widget(form) }}
+
+                    <input value="Сохранить" type="submit" class="btn btn-submit btn-sm btn-rounded">
+
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

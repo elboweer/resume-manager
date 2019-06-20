@@ -1,12 +1,98 @@
+{% trans_default_domain 'messages' %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Resume-manager{% endblock %}</title>
+
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+
+    <link rel="icon" href="{{ asset('assets//favicon.ico') }}?1" type="image/png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700%7CMontserrat:400,500">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/noty.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div class="wrapper">
+    <header class="navbar navbar-fixed">
+        <div class="navbar--header">
+            <a href="#" class="logo">
+                RESUME-MANAGER
+            </a>
+            <a href="#" class="navbar--btn" data-toggle="sidebar" title="Toggle Sidebar">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+        <a href="#" class="navbar--btn" data-toggle="sidebar" title="Toggle Sidebar">
+            <i class="fa fa-bars"></i>
+        </a>
+    </header>
+
+    <aside class="sidebar" data-trigger="scrollbar">
+        <div id="first-bar" class="sidebar--nav">
+            <ul>
+                <li>
+                    <ul>
+                        <h3 class="h6 widget--title">Рабочая область</h3>
+                        <li>
+                            <a href="#" class="main-menu-item">
+                                <i class="fas fa-house-damage"></i>
+                                <span>Резюме</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="main-menu-item">
+                                <i class="fas fa-door-open"></i>
+                                <span>Кампании</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div id="content">
+        <main class="main--container">
+            {% block body %}{% endblock %}
+        </main>
+    </div>
+
+</div>
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets//js/datatables.min.js') }}"></script>
+<script src="{{ asset('assets/js/noty.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+<script src="{{ path('bazinga_jstranslation_js') }}"></script>
+<script src="{{ asset('assets/js/main.js') }}"></script>
+
+{%- if app.request.hasPreviousSession -%}
+    <script type="text/javascript">
+        {%- for type, flashMessages in app.session.flashbag.all() -%}
+        {%- for message in flashMessages -%}
+        new Noty({
+            theme: 'metroui',
+            dismissQueue: true,
+            type: '{{ type }}',
+            layout: 'bottomRight',
+            text: '{{ message | trans }}',
+            timeout: 4000,
+        }).show();
+        {%- endfor -%}
+        {%- endfor -%}
+    </script>
+{%- endif -%}
+
+</body>
 </html>

@@ -1,0 +1,31 @@
+action:
+  button:
+    delete: Удалить
+    edit: Изменить
+    update: Обновить
+  flush:
+    edit: Обновлено
+    create: Создано
+    error: Ошибка
+  confirmation:
+    request: Подтвердите действие
+    confirm: Подтверждаю
+    cancel: Отмена
+
+entity:
+  resume:
+    __create: Создать резюме
+    __index: Список резюме
+    __editor: Редактор резюме
+    position: Должность
+    body: Текст резюме
+    createdAt: Создан
+    updatedAt: Обновлен
+  company:
+    __create: Создать компанию
+    __index: Список компаний
+    __editor: Редактор компаний
+    title: Компания
+    site: Сайт
+    address: Адрес
+    phone: Телефон
