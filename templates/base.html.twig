@@ -73,17 +73,18 @@
     </div>
 
 </div>
-<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('assets//js/datatables.min.js') }}"></script>
-<script src="{{ asset('assets/js/noty.min.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-<script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-<script src="{{ path('bazinga_jstranslation_js') }}"></script>
-<script src="{{ asset('assets/js/main.js') }}"></script>
+{% block javascripts %}
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets//js/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/noty.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script src="{{ path('bazinga_jstranslation_js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 
-{%- if app.request.hasPreviousSession -%}
+    {%- if app.request.hasPreviousSession -%}
     <script type="text/javascript">
         {%- for type, flashMessages in app.session.flashbag.all() -%}
         {%- for message in flashMessages -%}
@@ -98,7 +99,8 @@
         {%- endfor -%}
         {%- endfor -%}
     </script>
-{%- endif -%}
+    {%- endif -%}
+{% endblock %}
 
 </body>
 </html>

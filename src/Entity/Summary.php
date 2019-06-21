@@ -51,7 +51,6 @@ class Summary
     private $updatedAt;
 
     /**
-     * @var Feedback[]
      * @ORM\OneToMany(targetEntity="App\Entity\Feedback", mappedBy="summary")
      */
     private $feedBacks;
@@ -149,15 +148,43 @@ class Summary
      */
     public function getFeedBacks(): ?array
     {
-        return $this->feedBacks;
+        return $this->feedBacks->toArray();
     }
 
     /**
-     * @param Feedback $feedBacks
+     * @return int
      */
-    public function addFeedBack(Feedback $feedBacks): void
+    public function getAcceptedFeedbacksCount(): int
     {
-        $this->feedBacks->add($feedBacks);
+        $feedbacks = $this->getFeedBacks();
+        $count = 0;
+
+        array_map(function (Feedback $feedback) use (&$count) {
+            if ($feedback->getDecision() == Feedback::DECISION_ACCEPTED) {
+                ++$count;
+            }
+        }, $feedbacks);
+
+        dump($count);
+
+        return $count;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDeclinedFeedbacksCount(): int
+    {
+        $feedbacks = $this->getFeedBacks();
+        $count = 0;
+
+        array_map(function (Feedback $feedback) use (&$count) {
+            if ($feedback->getDecision() == Feedback::DECISION_DECLINED) {
+                ++$count;
+            }
+        }, $feedbacks);
+
+        return $count;
     }
 
     /**

@@ -91,15 +91,28 @@ class FeedbackController extends AbstractController
     }
 
     /**
-     * @Route("/feedbacks}", name="feedback_index")
+     * @Route("/feedbacks", name="feedback_index")
      * @return Response
      */
     public function feedbackIndex()
     {
         $feedbacks = $this->feedbackRepository->getAll();
 
-        return $this->render('feedback/widget/index.html.twig', [
+        return $this->render('feedback/index.html.twig', [
             'feedbacks' => $feedbacks,
+        ]);
+    }
+
+    /**
+     * @Route("/feedbacks/statistics", name="feedback_stat")
+     * @return Response
+     */
+    public function feedbackStatistics()
+    {
+        $summaries = $this->summaryRepository->getAll();
+
+        return $this->render('feedback/statistics.html.twig', [
+            'summaries' => $summaries,
         ]);
     }
 }

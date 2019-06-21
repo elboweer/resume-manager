@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <section class="main--content">
+        <div class="panel">
+            <div id="sended-summaries"></div>
+            <div id="stat-summaries"></div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://cdn.anychart.com/js/latest/anychart-bundle.min.js"></script>
+
+    <script>
+        anychart.onDocumentLoad(function() {
+            // create chart and set data
+            var chart = anychart.pie([
+                {% for summary in summaries %}
+                ["{{ summary.id }}", {{ summary.feedbacks | length }}],
+                {% endfor %}
+            ]);
+
+            var chartStat = anychart.column();
+            chartStat.data({header: ["#", "Приняли", "Declined"],
+                rows:[
+                    {% for summary in summaries %}
+                    {x: "{{ summary.id }}", accepted: {{ summary.acceptedFeedbacksCount }}, declined: {{ summary.declinedFeedbacksCount }} },
+                    {% endfor %}
+                ]});
+
+
+            chart.title("Sended summaries");
+            chart.container("sended-summaries").draw();
+            chartStat.title("Stat summaries");
+            chartStat.container("stat-summaries").draw();
+        });
+    </script>
+
+{% endblock %}
