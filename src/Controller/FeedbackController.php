@@ -110,9 +110,11 @@ class FeedbackController extends AbstractController
     public function feedbackStatistics()
     {
         $summaries = $this->summaryRepository->getAll();
+        $acceptedAndDeclinedSummariesByDates = $this->feedbackRepository->getAcceptedAndDeclinedSummariesCountByDates();
 
         return $this->render('feedback/statistics.html.twig', [
             'summaries' => $summaries,
+            'acceptedAndDeclinedSummariesByDates' => $acceptedAndDeclinedSummariesByDates,
         ]);
     }
 }

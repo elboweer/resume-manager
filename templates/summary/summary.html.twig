@@ -3,6 +3,8 @@
 
 {% block body %}
 
+    <a href="{{ path('statistic_summary', { 'summaryID': summary.id }) }}" class="btn btn-lg btn-rounded btn-warning">{% trans %}entity.feedback.statistic{% endtrans %}</a>
+
     {% if action == 'update' %}
             {{ render(controller(
                 'App\\Controller\\FeedbackController::feedbackWidget',

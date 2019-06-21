@@ -5,7 +5,9 @@ namespace App\Repository;
 use App\Entity\Company;
 use App\Entity\Feedback;
 use App\Entity\Summary;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Exception;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -49,5 +51,40 @@ class FeedbackRepository extends ServiceEntityRepository
         return array_map(function ($item) {
             return $item['id'];
         }, $records);
+    }
+
+    /**
+     * @return array
+     */
+    public function getAcceptedAndDeclinedSummariesCountByDates(): array
+    {
+        return $this->createQueryBuilder('f')
+            ->select("DATE(f.sendAt) as sendAt")
+            ->addSelect("(SUM(CASE WHEN f.decision like 'accepted' THEN 1 ELSE 0 END)) AS accepted")
+            ->addSelect("(SUM(CASE WHEN f.decision like 'declined' THEN 1 ELSE 0 END)) AS declined")
+            ->groupBy("sendAt")
+            ->orderBy('sendAt', 'DESC')
+            ->setMaxResults(7)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param Summary $summary
+     * @return array
+     */
+    public function getAcceptedAndDeclinedSummariesCountByDatesBySummary(Summary $summary): array
+    {
+        return $this->createQueryBuilder('f')
+            ->select("DATE(f.sendAt) as sendAt")
+            ->addSelect("(SUM(CASE WHEN f.decision like 'accepted' THEN 1 ELSE 0 END)) AS accepted")
+            ->addSelect("(SUM(CASE WHEN f.decision like 'declined' THEN 1 ELSE 0 END)) AS declined")
+            ->andWhere('f.summary = :summary')
+            ->setParameter('summary', $summary)
+            ->groupBy("sendAt")
+            ->orderBy('sendAt', 'DESC')
+            ->setMaxResults(7)
+            ->getQuery()
+            ->getResult();
     }
 }

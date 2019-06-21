@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Summary;
 use App\Form\SummaryType;
+use App\Repository\FeedbackRepository;
 use App\Repository\SummaryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -24,15 +25,22 @@ class SummaryController extends AbstractController
     private $summaryRepository;
 
     /**
+     * @var FeedbackRepository
+     */
+    private $feedbackRepository;
+
+    /**
      * @var EntityManagerInterface
      */
     private $entityManager;
 
     public function __construct(
         SummaryRepository $summaryRepository,
+        FeedbackRepository $feedbackRepository,
         EntityManagerInterface $entityManager)
     {
         $this->summaryRepository = $summaryRepository;
+        $this->feedbackRepository = $feedbackRepository;
         $this->entityManager = $entityManager;
     }
 
@@ -132,6 +140,7 @@ class SummaryController extends AbstractController
         return $this->render('summary/summary.html.twig', [
             'form' => $form->createView(),
             'summary' => $summary,
+            'action' => 'clone',
         ]);
     }
 
@@ -151,6 +160,26 @@ class SummaryController extends AbstractController
         $this->entityManager->flush();
 
         return $this->redirectToRoute('index_summary');
+    }
+
+    /**
+     * @Route("/summaries/{summaryID}/statistic", name="statistic_summary")
+     * @param $summaryID
+     * @return Response
+     * @throws NonUniqueResultException
+     */
+    public function summaryStatistics($summaryID)
+    {
+        if (!$summary = $this->summaryRepository->getByID($summaryID)) {
+            throw new NotFoundHttpException();
+        }
+
+        $statistics = $this->feedbackRepository->getAcceptedAndDeclinedSummariesCountByDatesBySummary($summary);
+
+        return $this->render('summary/statistics.html.twig', [
+            'summary' => $summary,
+            'statistics' => $statistics,
+        ]);
     }
 
     /**

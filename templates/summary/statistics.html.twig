@@ -1,14 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <section class="main--content">
-        <div class="panel">
-            <div id="stat-summaries"></div>
-        </div>
-    </section>
-
-    <h2>Принято/отклонено по датам</h2>
+    <h2>Принято/отклонено по резюме {{ summary.id }}</h2>
     <canvas id="dateChart" style="height: 400px !important;"></canvas>
 {% endblock %}
 
@@ -21,27 +14,12 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="https://cdn.anychart.com/js/latest/anychart-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
     <script>
-        anychart.onDocumentLoad(function() {
-            var chartStat = anychart.column();
-            chartStat.data({header: ["#", "Принято", "Отклонено"],
-                rows:[
-                    {% for summary in summaries %}
-                        {x: "{{ summary.id }}", accepted: {{ summary.acceptedFeedbacksCount }}, declined: {{ summary.declinedFeedbacksCount }} },
-                    {% endfor %}
-                ]});
-
-            chartStat.title("Принято/отклонено по заявкам");
-            chartStat.container("stat-summaries").draw();
-        });
-
-
         var acceptedData = {
             label: 'Принято',
             data: [
-                {% for feedbackDate in acceptedAndDeclinedSummariesByDates %}
+                {% for feedbackDate in statistics %}
                     {{ feedbackDate['accepted']  }},
                 {% endfor %}
             ],
@@ -53,7 +31,7 @@
         var declinedData = {
             label: 'Отклонено',
             data: [
-                {% for feedbackDate in acceptedAndDeclinedSummariesByDates %}
+                {% for feedbackDate in statistics %}
                     {{ feedbackDate['declined']  }},
                 {% endfor %}
             ],
@@ -64,7 +42,7 @@
 
         var datesData = {
             labels: [
-                {% for feedbackDate in acceptedAndDeclinedSummariesByDates %}
+                {% for feedbackDate in statistics %}
                     "{{ feedbackDate['sendAt']  }}",
                 {% endfor %}
             ],
@@ -90,8 +68,6 @@
             data: datesData,
             options: chartOptions
         });
-
-
     </script>
 
 {% endblock %}

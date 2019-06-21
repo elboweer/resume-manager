@@ -38,8 +38,8 @@ entity:
     summary: Резюме
     company: Компания
     sendAt: Отправлено
+    statistic: Статистика
     decisions:
       __title: Решение
       accepted: Приглашение
       declined: Отклонено
-
