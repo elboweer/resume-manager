@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Принято/отклонено по резюме {{ summary.id }}</h2>
-    <canvas id="dateChart" style="height: 400px !important;"></canvas>
+    <section class="main--content">
+        <div class="panel">
+            <div id="stat-summaries"></div>
+        </div>
+    </section>
 {% endblock %}
 
 {% block stylesheets %}
@@ -14,60 +17,21 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <script src="https://cdn.anychart.com/js/latest/anychart-bundle.min.js"></script>
     <script>
-        var acceptedData = {
-            label: 'Принято',
-            data: [
-                {% for feedbackDate in statistics %}
-                    {{ feedbackDate['accepted']  }},
-                {% endfor %}
-            ],
-            backgroundColor: 'rgba(0, 99, 132, 0.6)',
-            borderColor: 'rgba(0, 99, 132, 1)',
-            yAxisID: "y-axis-accepted"
-        };
+        anychart.onDocumentLoad(function() {
+            var chartStat = anychart.column();
+            chartStat.data({header: ["#", "Принято", "Отклонено"],
+                rows:[
+                    {% for feedbackDate in statistics %}
+                    {x: "{{ feedbackDate['sendAt'] }}", accepted: {{ feedbackDate['accepted'] }}, declined: {{ feedbackDate['declined'] }} },
+                    {% endfor %}
+                ]});
 
-        var declinedData = {
-            label: 'Отклонено',
-            data: [
-                {% for feedbackDate in statistics %}
-                    {{ feedbackDate['declined']  }},
-                {% endfor %}
-            ],
-            backgroundColor: 'rgba(99, 132, 0, 0.6)',
-            borderColor: 'rgba(99, 132, 0, 1)',
-            yAxisID: "y-axis-declined"
-        };
-
-        var datesData = {
-            labels: [
-                {% for feedbackDate in statistics %}
-                    "{{ feedbackDate['sendAt']  }}",
-                {% endfor %}
-            ],
-            datasets: [acceptedData, declinedData]
-        };
-
-        var chartOptions = {
-            scales: {
-                xAxes: [{
-                    barPercentage: 1,
-                    categoryPercentage: 0.6
-                }],
-                yAxes: [{
-                    id: "y-axis-accepted"
-                }, {
-                    id: "y-axis-declined"
-                }]
-            }
-        };
-
-        var barChart = new Chart($('#dateChart'), {
-            type: 'bar',
-            data: datesData,
-            options: chartOptions
+            chartStat.title("Принято/отклонено по датам");
+            chartStat.container("stat-summaries").draw();
         });
+
     </script>
 
 {% endblock %}

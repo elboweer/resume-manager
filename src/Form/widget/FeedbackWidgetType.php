@@ -38,10 +38,15 @@ class FeedbackWidgetType extends AbstractType
                 'class' => Company::class,
                 'choice_label' => 'title',
                 'query_builder' => function (EntityRepository $er) use ($unavailableIDs) {
-                    return $er->createQueryBuilder('c')
-                        ->where('c.id NOT IN (:unavailableIDs)')
-                        ->setParameter('unavailableIDs', $unavailableIDs)
+                    $qb = $er->createQueryBuilder('c')
                         ->orderBy('c.title', 'ASC');
+                    if ($unavailableIDs) {
+                        $qb
+                            ->where('c.id NOT IN (:unavailableIDs)')
+                            ->setParameter('unavailableIDs', $unavailableIDs);
+                    }
+
+                    return $qb;
                 },
             ]);
     }
