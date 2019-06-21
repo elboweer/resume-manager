@@ -3,6 +3,14 @@
 
 {% block body %}
 
+    {% if action == 'update' %}
+            {{ render(controller(
+                'App\\Controller\\FeedbackController::feedbackWidget',
+                { 'summaryID': summary.id }
+            )) }}
+
+    {% endif %}
+
     <section class="main--content">
         <div class="panel">
             <div class="records--body">

@@ -45,13 +45,19 @@
                         <li>
                             <a href="{{ path('index_summary') }}" class="main-menu-item">
                                 <i class="fas fa-house-damage"></i>
-                                <span>Резюме</span>
+                                <span>{% trans %}entity.summary.__title{% endtrans %}</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ path('index_company') }}" class="main-menu-item">
                                 <i class="fas fa-door-open"></i>
-                                <span>Компании</span>
+                                <span>{% trans %}entity.company.__title{% endtrans %}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('feedback_index') }}" class="main-menu-item">
+                                <i class="fas fa-door-open"></i>
+                                <span>{% trans %}entity.feedback.__title{% endtrans %}</span>
                             </a>
                         </li>
                     </ul>

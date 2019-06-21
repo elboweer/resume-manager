@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Company;
 use App\Entity\Feedback;
+use App\Entity\Summary;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -19,32 +21,33 @@ class FeedbackRepository extends ServiceEntityRepository
         parent::__construct($registry, Feedback::class);
     }
 
-    // /**
-    //  * @return Feedback[] Returns an array of Feedback objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Feedback[]
+     */
+    public function getAll(): array
     {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Feedback
+    /**
+     * @param Summary $summary
+     * @return array
+     */
+    public function getUnavailableCompanyIdsBySummary(Summary $summary)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
+        $records = $this->createQueryBuilder('f')
+            ->select('company.id')
+            ->innerJoin('f.company', 'company')
+            ->where('f.summary = :summary')
+            ->setParameter('summary', $summary)
+            ->addGroupBy('company.id')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
+
+        return array_map(function ($item) {
+            return $item['id'];
+        }, $records);
     }
-    */
 }

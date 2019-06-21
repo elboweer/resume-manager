@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <section class="main--content">
+        <div class="panel">
+            <div class="records--list" data-title="{% trans %}entity.summary.__index{% endtrans %}">
+                <table id="recordsListView">
+                    <thead>
+                    <tr>
+                        <th>
+                            {% trans %}entity.feedback.summary{% endtrans %}
+                        </th>
+                        <th>
+                            {% trans %}entity.feedback.company{% endtrans %}
+                        </th>
+                        <th>
+                            {% trans %}entity.feedback.sendAt{% endtrans %}
+                        </th>
+                        <th>
+                            {% trans %}entity.feedback.decisions.__title{% endtrans %}
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for feedback in feedbacks %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('edit_summary', {'summaryID': feedback.summary.id }) }}" class="btn-link">{{ feedback.summary.id }}</a>
+                            </td>
+                            <td>
+                                <p class="btn-link">{{ feedback.company.title }}</p>
+                            </td>
+                            <td>
+                                <p class="btn-link">{{ feedback.sendAt | date }}</p>
+                            </td>
+                            <td>
+                                <p class="btn-link">
+                                    <span class="label decision-{{ feedback.decision }}">{{ ('entity.feedback.decisions.' ~ feedback.decision) | trans }}</span>
+                                </p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}

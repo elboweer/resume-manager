@@ -1,0 +1,21 @@
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+<section class="main--content">
+    <div class="panel">
+        <div class="records--body">
+            <div class="title">
+                <h6 class="h6">{% trans %}entity.feedback.send{% endtrans %}</h6>
+            </div>
+            <div class="tab-content">
+
+                {{ form_start(form) }}
+
+                {{ form_widget(form) }}
+
+                <input value="Отправить" type="submit" class="btn btn-submit btn-sm btn-rounded">
+
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+    </div>
+</section>

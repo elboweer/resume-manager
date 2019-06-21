@@ -71,6 +71,7 @@ class SummaryController extends AbstractController
         return $this->render('summary/summary.html.twig', [
             'form' => $form->createView(),
             'summary' => $summary,
+            'action' => 'create'
         ]);
     }
 
@@ -100,6 +101,7 @@ class SummaryController extends AbstractController
         return $this->render('summary/summary.html.twig', [
             'form' => $form->createView(),
             'summary' => $summary,
+            'action' => 'update'
         ]);
     }
 

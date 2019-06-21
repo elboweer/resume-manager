@@ -673,9 +673,8 @@ a.star-icon.is-stared:before {
     cursor: default;
 }
 
-.product-sale { background-color: #009378; }
-.product-discount { background-color: #5bc0de; }
-.product-disabled { background-color: #ccc; }
+.decision-accepted { background-color: #009378; }
+.decision-declined { background-color: #e16123; }
 
 
 /* 5.20. NAVIGATION */

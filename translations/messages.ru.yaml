@@ -8,13 +8,14 @@ action:
     edit: Обновлено
     create: Создано
     error: Ошибка
+    feedback_request: Резюме успешно отправлено
   confirmation:
     request: Подтвердите действие
     confirm: Подтверждаю
     cancel: Отмена
-
 entity:
   summary:
+    __title: Резюме
     __create: Создать резюме
     __index: Список резюме
     __editor: Редактор резюме
@@ -23,6 +24,7 @@ entity:
     createdAt: Создан
     updatedAt: Обновлен
   company:
+    __title: Компания
     __create: Создать компанию
     __index: Список компаний
     __editor: Редактор компаний
@@ -30,3 +32,14 @@ entity:
     site: Сайт
     address: Адрес
     phone: Телефон
+  feedback:
+    __title: Отклики
+    send: Отправить резюме
+    summary: Резюме
+    company: Компания
+    sendAt: Отправлено
+    decisions:
+      __title: Решение
+      accepted: Приглашение
+      declined: Отклонено
+

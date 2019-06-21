@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
@@ -12,6 +13,17 @@ use Ramsey\Uuid\Uuid;
  */
 class Feedback
 {
+    const DECISION_ACCEPTED = 'accepted';
+    const DECISION_DECLINED = 'declined';
+
+    /**
+     * @var array
+     */
+    private static $decisions = [
+        self::DECISION_ACCEPTED => 'entity.decision.accepted',
+        self::DECISION_DECLINED => 'entity.decision.declined'
+    ];
+
     /**
      * @var string
      *
@@ -44,11 +56,15 @@ class Feedback
     private $decision;
 
     /**
+     * @param Summary $summary
      * @throws Exception
      */
-    public function __construct()
+    public function __construct(Summary $summary)
     {
         $this->id = Uuid::uuid4()->toString();
+        $this->summary = $summary;
+        $this->sendAt = new DateTime('now');
+        $this->decision = array_rand(self::$decisions);
     }
 
     /**
@@ -121,5 +137,13 @@ class Feedback
     public function setDecision(string $decision): void
     {
         $this->decision = $decision;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getDecisions()
+    {
+        return self::$decisions;
     }
 }
